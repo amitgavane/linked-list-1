@@ -1,0 +1,167 @@
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* next;
+};
+
+class CircularSingleLinkedList {
+private:
+    Node* head;
+
+public:
+    CircularSingleLinkedList() {
+        head = nullptr;
+    }
+
+    void create(int data) {
+        Node* newNode = new Node();
+        newNode->data = data;
+        if (!head) {
+            head = newNode;
+            head->next = head;
+        } else {
+            Node* temp = head;
+            while (temp->next != head) {
+                temp = temp->next;
+            }
+            temp->next = newNode;
+            newNode->next = head;
+        }
+    }
+
+    void traverse() {
+        if (!head) {
+            cout << "List is empty." << endl;
+            return;
+        }
+        Node* temp = head;
+        do {
+            cout << temp->data << " ";
+            temp = temp->next;
+        } while (temp != head);
+        cout << endl;
+    }
+
+    void insertBeg(int data) {
+        Node* newNode = new Node();
+        newNode->data = data;
+        if (!head) {
+            head = newNode;
+            head->next = head;
+        } else {
+            Node* temp = head;
+            while (temp->next != head) {
+                temp = temp->next;
+            }
+            newNode->next = head;
+            temp->next = newNode;
+            head = newNode;
+        }
+    }
+
+    void insertEnd(int data) {
+        Node* newNode = new Node();
+        newNode->data = data;
+        if (!head) {
+            head = newNode;
+            head->next = head;
+        } else {
+            Node* temp = head;
+            while (temp->next != head) {
+                temp = temp->next;
+            }
+            temp->next = newNode;
+            newNode->next = head;
+        }
+    }
+
+    void deleteBeg() {
+        if (!head) {
+            cout << "List is empty." << endl;
+            return;
+        }
+        if (head->next == head) {
+            delete head;
+            head = nullptr;
+        } else {
+            Node* temp = head;
+            while (temp->next != head) {
+                temp = temp->next;
+            }
+            Node* toDelete = head;
+            head = head->next;
+            temp->next = head;
+            delete toDelete;
+        }
+    }
+
+    void deleteEnd() {
+        if (!head) {
+            cout << "List is empty." << endl;
+            return;
+        }
+        if (head->next == head) {
+            delete head;
+            head = nullptr;
+        } else {
+            Node* temp = head;
+            while (temp->next->next != head) {
+                temp = temp->next;
+            }
+            Node* toDelete = temp->next;
+            temp->next = head;
+            delete toDelete;
+        }
+    }
+};
+
+int main() {
+    CircularSingleLinkedList csll;
+    int choice, data;
+
+    while (true) {
+        cout << "\nMenu:\n";
+        cout << "1. Create\n";
+        cout << "2. Traverse\n";
+        cout << "3. Insert at Beginning\n";
+        cout << "4. Insert at End\n";
+        cout << "5. Delete from Beginning\n";
+        cout << "6. Delete from End\n";
+        cout << "7. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                cout << "Enter data to create: ";
+                cin >> data;
+                csll.create(data);
+                break;
+            case 2:
+                csll.traverse();
+                break;
+            case 3:
+                cout << "Enter data to insert at beginning: ";
+                cin >> data;
+                csll.insertBeg(data);
+                break;
+            case 4:
+                cout << "Enter data to insert at end: ";
+                cin >> data;
+                csll.insertEnd(data);
+                break;
+            case 5:
+                csll.deleteBeg();
+                break;
+            case 6:
+                csll.deleteEnd();
+                break;
+            case 7:
+                return 0;
+            default:
+                cout << "Invalid choice. Please try again." << endl;
+        }
+    }
+}
